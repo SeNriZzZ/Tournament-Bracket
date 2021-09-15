@@ -22,16 +22,17 @@ public class ColumnController : MonoBehaviour
         _playerCount = count;
         for (int i = 0; i < buttonsToCreate; i++)
         {
-            BuildButtons();
+            BuildButtons(i);
         }
         
        
     }
-
-    public void BuildButtons()
+    
+    
+    public void BuildButtons(int i)
     {
-       ButtonController childObject = Instantiate(_buttonPrefab);
-       childObject.transform.parent = this.transform;
-       
+       ButtonController button = Instantiate(_buttonPrefab);
+       button.transform.parent = this.transform;
+       button.Initialize(i);
     }
 }

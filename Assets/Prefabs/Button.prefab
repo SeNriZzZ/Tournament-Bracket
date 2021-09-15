@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4431850473226570055}
   - component: {fileID: 4431850473226570052}
   - component: {fileID: -5726419916010875953}
-  - component: {fileID: -2352991723280052624}
+  - component: {fileID: 2009106540013837463}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 4431850473226570052}
---- !u!114 &-2352991723280052624
+--- !u!114 &2009106540013837463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,7 +234,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: -5726419916010875953}
           m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-          m_MethodName: OnButtonCLicked
+          m_MethodName: OnCLick
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

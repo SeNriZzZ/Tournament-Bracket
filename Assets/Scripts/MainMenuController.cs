@@ -24,7 +24,7 @@ public class MainMenuController : MonoBehaviour
     private void Update()
     {
         numberOfPlayers = Int32.Parse(_playerCount.text);
-        if (Mathf.Log(numberOfPlayers,2) % 1 ==0 && numberOfPlayers <=32)
+        if (Mathf.Log(numberOfPlayers,2) % 1 ==0 && numberOfPlayers <=32 && numberOfPlayers != 1)
         {
             _startButton.image.color = Color.white;
             _startButton.interactable = true;
