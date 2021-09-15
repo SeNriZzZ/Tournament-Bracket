@@ -12,12 +12,19 @@ public class MainMenuController : MonoBehaviour
 
     [SerializeField] private InputField _playerCount;
 
-    private int _numberOfPlayers;
+    public static int numberOfPlayers;
+    
 
-    void Update()
+    private void Start()
     {
-        _numberOfPlayers = Int32.Parse(_playerCount.text);
-        if (Mathf.Log(_numberOfPlayers,2) % 1 ==0)
+        _startButton.interactable = false;
+        
+    }
+
+    private void Update()
+    {
+        numberOfPlayers = Int32.Parse(_playerCount.text);
+        if (Mathf.Log(numberOfPlayers,2) % 1 ==0 && numberOfPlayers <=32)
         {
             _startButton.image.color = Color.white;
             _startButton.interactable = true;
@@ -32,7 +39,20 @@ public class MainMenuController : MonoBehaviour
 
     public void OnClickEvent()
     {
-        SceneManager.LoadScene("Tournament");
+        if (_startButton.interactable == true)
+        {
+            SceneManager.LoadScene("Tournament");
+        }
     }
 
+    public void OnInputCLicked()
+    {
+        TouchScreenKeyboard.Open(_playerCount.text, TouchScreenKeyboardType.Default);
+    }
+
+    public int GetPlayers(int x)
+    {
+        x = numberOfPlayers;
+        return x;
+    }
 }
