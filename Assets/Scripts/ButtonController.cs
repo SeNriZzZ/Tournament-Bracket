@@ -10,10 +10,12 @@ public class ButtonController : MonoBehaviour
     private List<System.Action> _actions = new List<System.Action>();
     private int _clicks;
     public int buttonIndex;
-    public int columnCount = 0;
 
+    
+    public event Action<int> Clicked;
     private void Start()
     {
+        _button.onClick.AddListener(OnCLick);
         _actions.Add(ColourToBLue);
         _actions.Add(colourToRed);
     }
@@ -21,6 +23,7 @@ public class ButtonController : MonoBehaviour
     public void Initialize(int index)
     {
         buttonIndex = index;
+        
     }
     public void ColourToBLue()
     {
@@ -41,6 +44,10 @@ public class ButtonController : MonoBehaviour
 
     public void OnCLick()
     {
+        if (Clicked != null)
+        {
+            Clicked(buttonIndex);
+        }
         _actions[_clicks].Invoke();
         _clicks = (_clicks + 1) % _actions.Count;
     }

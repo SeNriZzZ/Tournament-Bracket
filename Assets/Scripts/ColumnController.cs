@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class ColumnController : MonoBehaviour
 {
     [SerializeField] private ButtonController _buttonPrefab;
-
+    
+    public event Action<int, int> OnClick;
     private int _columnIndex;
     private int _playerCount;
     
@@ -34,5 +35,14 @@ public class ColumnController : MonoBehaviour
        ButtonController button = Instantiate(_buttonPrefab);
        button.transform.parent = this.transform;
        button.Initialize(i);
+       button.Clicked+=OnButtonClicked;
+    }
+
+    private void OnButtonClicked(int buttonIndex)
+    {
+        if (OnClick != null)
+        {
+            OnClick(buttonIndex, _columnIndex);
+        }
     }
 }

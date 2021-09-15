@@ -8,9 +8,12 @@ public class TableController : MonoBehaviour
 {
     [SerializeField] private ColumnController _columnPrefab;
     private int _playerCont;
+
+    private ColumnController[] columnsArray;
+    public event Action<int, int> OnClick;
     private void Start()
     {
-      
+        
         Debug.Log("Players: " + _playerCont);
         Debug.Log(this.transform.childCount + "Children");
         
@@ -33,6 +36,7 @@ public class TableController : MonoBehaviour
         var playersCount = players; // задаємо гравців
         var pow = GetPow(playersCount); //вираховує в якій ступені число (2 в ступені 4 напрімер)
         var columns = 2 * pow;
+        columnsArray = new ColumnController[columns];
         bool buildUpsideDown = false;
         for (int i = 0; i < columns; i++)
         {
@@ -55,8 +59,7 @@ public class TableController : MonoBehaviour
                 
             }
             
-            BuildColumn(buttonsToCreate);
-            
+            columnsArray[i] = BuildColumn(buttonsToCreate);
             
         }
         
@@ -64,13 +67,19 @@ public class TableController : MonoBehaviour
     
     
 
-    public void BuildColumn(int buttonsToCreate)
+    public ColumnController BuildColumn(int buttonsToCreate)
     {
 
             ColumnController childObject = Instantiate(_columnPrefab);
             childObject.transform.parent = this.transform;
             childObject.Initialize(_playerCont, buttonsToCreate);
-
+            childObject.OnClick += OnButtonClicked;
+            return childObject;
+    }
+    
+    private void OnButtonClicked(int buttonIndex, int columnIndex)
+    {
+        var column = columnsArray[columnIndex];
     }
     
 }
