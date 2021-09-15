@@ -10,7 +10,7 @@ public class TableController : MonoBehaviour
     private int _playerCont;
 
     private ColumnController[] columnsArray;
-    public event Action<int, int> OnClick;
+    public event Action<int, int> OnClickButton;
     private void Start()
     {
         
@@ -59,7 +59,7 @@ public class TableController : MonoBehaviour
                 
             }
             
-            columnsArray[i] = BuildColumn(buttonsToCreate);
+            columnsArray[i] = BuildColumn(buttonsToCreate, i);
             
         }
         
@@ -67,19 +67,19 @@ public class TableController : MonoBehaviour
     
     
 
-    public ColumnController BuildColumn(int buttonsToCreate)
+    public ColumnController BuildColumn(int buttonsToCreate, int i)
     {
 
             ColumnController childObject = Instantiate(_columnPrefab);
             childObject.transform.parent = this.transform;
-            childObject.Initialize(_playerCont, buttonsToCreate);
+            childObject.Initialize(buttonsToCreate, i);
             childObject.OnClick += OnButtonClicked;
             return childObject;
     }
     
     private void OnButtonClicked(int buttonIndex, int columnIndex)
     {
-        var column = columnsArray[columnIndex];
+        
     }
     
 }
