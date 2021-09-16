@@ -25,23 +25,28 @@ public class ColumnController : MonoBehaviour
         buttonsArray = new ButtonController[buttonsToCreate];
         for (int i = 0; i < buttonsToCreate; i++)
         {
-            buttonsArray[i]= BuildButtons(i);
+            buttonsArray[i]= BuildButtons(i, _columnIndex);
         }
         
        
     }
     
     
-    public ButtonController BuildButtons(int i)
+    public ButtonController BuildButtons(int i, int columnIndex)
     {
        ButtonController button = Instantiate(_buttonPrefab);
        button.transform.parent = this.transform;
-       button.Initialize(i);
+       button.Initialize(i, columnIndex);
        button.Clicked+=OnButtonClicked;
        return button;
     }
 
-    private void OnButtonClicked(int buttonIndex)
+    public int GetButtonsCount()
+    {
+        var buttonsC = buttonsArray.Length;
+        return buttonsC;
+    }
+    private void OnButtonClicked(int buttonIndex, int columnIndex)
     {
         if (OnClick != null)
         {
@@ -49,4 +54,28 @@ public class ColumnController : MonoBehaviour
         }
         
     }
+
+    public void ChangeToBlack(int buttonIndex)
+    {
+        buttonsArray[buttonIndex].SetBlack();
+    }
+
+    public bool IsBlue(int buttonIndex)
+    {
+        return 
+        buttonsArray[buttonIndex].IsBlue();
+        
+    }
+
+    public void ChangeToBlue(int i)
+    {
+        buttonsArray[i].SetBlue();
+    }
+
+    public void ChangeToYellow(int nextNeighbourIndex)
+    {
+        buttonsArray[nextNeighbourIndex].SetYellow();
+    }
+
+ 
 }

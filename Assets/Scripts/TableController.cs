@@ -10,7 +10,7 @@ public class TableController : MonoBehaviour
     private int _playerCont;
 
     private ColumnController[] columnsArray;
-    public event Action<int, int> OnClickButton;
+    
     private void Start()
     {
         
@@ -24,7 +24,7 @@ public class TableController : MonoBehaviour
         int pow = 0;
         while (number != 0)
         {
-            number = number >> 1; //здвигає біт вбік до тих пір поки number не буде 0. типу 000100 -> 000010 і так далі. Типу 16 стає 8, а потім 4 і т.д.
+            number = number >> 1; //здвигає біт вбік до тих пір поки number не буде 0. типу 000100 -> 000010 і так далі, 16 стає 8, а потім 4 і т.д.
             pow++;
         }
 
@@ -34,7 +34,7 @@ public class TableController : MonoBehaviour
     public void Initialize(int players)
     {
         var playersCount = players; // задаємо гравців
-        var pow = GetPow(playersCount); //вираховує в якій ступені число (2 в ступені 4 напрімер)
+        var pow = GetPow(playersCount); //вираховує в якій ступені число
         var columns = 2 * pow;
         columnsArray = new ColumnController[columns];
         bool buildUpsideDown = false;
@@ -79,7 +79,117 @@ public class TableController : MonoBehaviour
     
     private void OnButtonClicked(int buttonIndex, int columnIndex)
     {
+        var column = columnsArray[columnIndex];
         
+        var buttons = column.GetButtonsCount();
+        int buttonsCount = buttons;
+        
+        var isPair = buttonIndex % 2 == 0;
+        int neighbourIndex = 0;
+        if (isPair)
+        {
+            neighbourIndex = buttonIndex + 1;
+
+        }
+        else
+        {
+            neighbourIndex = buttonIndex - 1;
+        }
+        var isNeighbourPair = neighbourIndex % 2 == 0;
+        int nextNeighbourIndex = 0;
+        if (isNeighbourPair)
+        {
+            nextNeighbourIndex = neighbourIndex + 1;
+        }
+        else
+        {
+            nextNeighbourIndex = neighbourIndex - 1;
+        }
+
+        if (buttonsCount == 1 && column.IsBlue(buttonIndex))
+        {
+            
+            bool lastColumnIsLeftSide;
+            int halfArraySize = columnsArray.Length / 2;
+            if (columnIndex  < halfArraySize)
+            {
+                lastColumnIsLeftSide = true;
+            }
+            else
+            {
+                lastColumnIsLeftSide = false;
+            }
+
+            int lastColumnIndex = 0;
+            if (lastColumnIsLeftSide == true)
+            {
+                lastColumnIndex = columnIndex + 1;
+                
+            }
+            else
+            {
+                lastColumnIndex = columnIndex - 1;
+                
+            }
+
+            if (columnsArray[lastColumnIndex].IsBlue(0))
+            {
+                column.ChangeToYellow(buttonIndex);
+                columnsArray[lastColumnIndex].ChangeToBlack(0);
+            }
+            
+        }
+        else
+        {
+            if (column.IsBlue(neighbourIndex) && column.IsBlue(buttonIndex) && column.IsBlue(nextNeighbourIndex))
+            {
+                column.ChangeToBlack(neighbourIndex);
+                column.ChangeToYellow(nextNeighbourIndex);
+
+
+
+                bool isLeftSide;
+                var halfArrSize = columnsArray.Length / 2;
+                if (columnIndex + 1 < halfArrSize)
+                {
+                    isLeftSide = true;
+                }
+                else
+                {
+                    isLeftSide = false;
+                }
+
+                int nextColumnIndex = 0;
+                if (isLeftSide == true)
+                {
+                    nextColumnIndex = columnIndex + 1;
+
+                }
+                else
+                {
+                    nextColumnIndex = columnIndex - 1;
+
+                }
+
+                var x = 0;
+                var nextColumnButtonIndex = buttonIndex;
+                if (buttonIndex % 2 == 1)
+                {
+                    nextColumnButtonIndex--;
+
+                }
+
+
+                x = nextColumnButtonIndex / 2;
+
+                // x is the actual nextColumnButtonIndex;
+                columnsArray[nextColumnIndex].ChangeToBlue(x);
+
+
+            }
+
+
+        }
     }
     
 }
